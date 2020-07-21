@@ -1,0 +1,163 @@
+import spotipy
+
+
+def split_artist(artist,song,sp):
+    """We run this function if we found an error while searching for the song and artist in spotify. We check to see if
+    this can be solved by formatting the query.
+    
+    Inputs:
+        artist - The artist in text format
+        song - The song in text format
+        sp - The spotipy instance
+    
+    Outputs:
+        The Spotipy search results
+        """
+
+    artist = artist.lower() # Make it lowercase
+    artist_mod = artist.split("&")[0]     # Split the string based off the apersand and "and" to remove featuring artists
+    artist_mod = artist_mod.split("and")[0]
+
+    query = "artist:{} track:{}".format(artist_mod,song) # Creates a new query
+    result = sp.search(q=query, type='track', limit=1) # Searching
+
+    if result['tracks']['total']: # Do any files exist
+
+        return result # Success
+
+
+    artist_mod = artist.split("/")[0] # Chooses all text before a backslash
+    query = "artist:{} track:{}".format(artist_mod,song) # Generates a new query
+    result = sp.search(q=query, type='track', limit=1)
+
+    if result['tracks']['total']:
+        return result
+
+    song_mod = song.replace("\'","") # Chooses all text before the quotation ' 
+    query = "artist:{} track:{}".format(artist,song_mod)
+    result = sp.search(q=query, type='track', limit=1)
+
+    return result # Here we have exhausted all formatting
+
+
+
+
+def convert_to_uri(artist_results):
+    """ A function to convert the spotipy searches (usually in a dictionary format) into uri numbers.
+    
+    Inputs:
+        artist_results - A list of spotipy search results
+        
+    Outputs:
+        tracklist - A list of uri's for each song"""
+
+    tracklist = []
+
+    for i in range(len(artist_results)):
+
+        if not artist_results[i]: # Skip failed searches
+            continue
+
+        tracklist.append(artist_results[i]['tracks']['items'][0]['uri']) # Finds the uri
+
+
+    return tracklist
+
+
+def get_top_songs_for_artist(art_song,sp):
+    """ Main search function. Searches spotify using spotipy for the specific artist and song, selects top result.
+    Inputs:
+        art_song - A list with each element as [artist_name, song_name]
+        
+    Outputs:
+        artist_results - A list with each element containing either None or spotipy search results for the artist and song"""
+        
+    Failure_Count = 0
+    artist_results = [""] * len(art_song) # Creates a blank string list
+
+    for i in range(len(art_song)):
+
+
+        query = "artist:{} track:{}".format(art_song[i][0],art_song[i][1]) # Creates a query
+        artist_results[i] = sp.search(q=query, type='track', limit=1) # Does the searching
+
+        if artist_results[i]['tracks']['total']: # Checks to see if search was successful
+        
+            print("Success")
+            continue # Successful search. Continues to next element
+
+
+        artist_results[i] = split_artist(art_song[i][0],art_song[i][1],sp) # Error found, attempt to reformat the query
+
+
+        if artist_results[i]['tracks']['total']: # Check if search was successful
+        
+            print("Success after split")
+            continue # Successful search after reformatting
+
+
+        print("Failure") # Failed search
+        artist_results[i] = None
+        Failure_Count+=1
+
+
+    print("{:.1f}% Rate".format(Failure_Count/len(art_song) * 100)) # Prints failure rate of the total list
+    return artist_results
+
+
+
+def playlist_id(name,sp):
+    """ A function that will find the playlist id of the users personal playlist
+    Inputs:
+        name - The name in text of the users spotify playlist
+        
+    Outputs:
+        my_playlist_id - The id of the playlist"""
+
+    user_playlists=sp.current_user_playlists()
+    playlist_found = False
+
+    for playlist_index in range(len(user_playlists['items'])):
+
+        if user_playlists['items'][playlist_index]['name'] == name: # Checks if the playlist corresponds to the name given
+            print("Playlist Found")
+            playlist_found = True
+            break
+
+    if not playlist_found: # Raises error if playlist name is not found in current user playlists.
+        raise Exception("Playlist Not Found! Check playlist name is correct.")
+
+    my_playlist_id = user_playlists['items'][playlist_index]['id']
+    return my_playlist_id
+
+def user_playlist_tracks_full(spotify, user, playlist_id=None, fields=None, market=None):
+    """ Get full details of the tracks of a playlist owned by a user.
+        Parameters:
+            - spotify - spotipy instance
+            - user - the id of the user
+            - playlist_id - the id of the playlist
+            - fields - which fields to return
+            - market - an ISO 3166-1 alpha-2 country code.
+    """
+
+    # first run through also retrieves total no of songs in library
+    response = spotify.user_playlist_tracks(user, playlist_id, fields=fields, limit=100, market=market)
+    results = response["items"]
+
+    # subsequently runs until it hits the user-defined limit or has read all songs in the library
+    while len(results) < response["total"]:
+        response = spotify.user_playlist_tracks(
+            user, playlist_id, fields=fields, limit=100, offset=len(results), market=market
+        )
+        results.extend(response["items"])
+
+    return results
+
+def uri_from_playlist(sp,items):
+    final_list = []
+    for item in items:
+        uri = item["track"]["uri"]
+        final_list.append(uri)
+    
+    return final_list
+
