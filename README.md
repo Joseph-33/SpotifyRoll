@@ -46,7 +46,9 @@ Open a command prompt in the repository folder and run
 ```
 python Main.py
 ```
-It will then prompt you to input the artist name and the song name, your input for the artist and song name doesn't need to be character perfect, but just enough so spotify will have a good idea of the song you are wanting to select
+You can choose to input the artist and song name into the config.yaml or into the command prompt when you run the script.
+
+The artist and song name doesn't need to be character perfect, but just enough so spotify will have a good idea of the song you are wanting to select
 
 
 
