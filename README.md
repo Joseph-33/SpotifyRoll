@@ -9,7 +9,7 @@ Look no further, this script will roll your songs so you can continue your posit
 # Example
 
 Given a playlist with songs entitled 1,2,3,4,5,6,7
-By rolling over to song 7, the playlist will now have the order of 5,6,7,1,2,3,4 as shown here:
+By selecting song 5 to roll over, the playlist will now start with song 5 and will have the order of 5,6,7,1,2,3,4:
 
 <img src="https://raw.githubusercontent.com/Joseph-33/SpotifyRoll/master/Boxes.png" width="400">
 
