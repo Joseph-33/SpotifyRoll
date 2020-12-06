@@ -4,7 +4,7 @@ Listening to a long playlist on spotify?
 
 Want to play a new song without losing your position?
 
-Look no further, this script will roll your songs so you can continue your position later on where you left off.
+Look no further, this script will roll your songs so you can continue on your position later on where you left off.
 
 # Example
 
