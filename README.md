@@ -26,7 +26,6 @@ By rolling over to song 7, the playlist will now have the order of 5,6,7,1,2,3,4
 - Spotify Premium
 - Python 3.x
   - [Spotipy](https://pypi.org/project/spotipy/)
-  - [html2text](https://pypi.org/project/html2text/)
   - [Yaml](https://pypi.org/project/PyYAML/)
 
 # How to obtain a client and secret id
