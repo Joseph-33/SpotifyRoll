@@ -10,9 +10,6 @@ Example:
 Given a playlist with songs entitled 1,2,3,4,5,6,7
 By rolling over to song 7, the playlist will now have the order of 5,6,7,1,2,3,4 as shown here:
 
-
-![image](https://croatia.hr/sites/default/files/styles/image_full_width/public/2017-08/02_01_slide_nature.jpg?itok=ItAHmLlp)
-
 ![image](https://raw.githubusercontent.com/Joseph-33/SpotifyRoll/master/Boxes.png?raw=True)
 
 
