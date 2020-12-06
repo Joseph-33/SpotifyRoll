@@ -46,7 +46,7 @@ Open a command prompt in the repository folder and run
 ```
 python Main.py
 ```
-Now input the name of the song and artist you would like to move to the top.
+It will then prompt you to input the artist name and the song name, your input for the artist and song name doesn't need to be character perfect, but just enough so spotify will have a good idea of the song you are wanting to select
 
 
 
