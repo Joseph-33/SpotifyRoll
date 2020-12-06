@@ -43,9 +43,9 @@ git clone
 
 # Running
 Open a command prompt in the repository folder and run
-`
+```
 python Main.py
-`
+```
 Now input the name of the song and artist you would like to move to the top.
 
 
