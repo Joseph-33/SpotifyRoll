@@ -1,9 +1,10 @@
 # SpotifyRoll
 
 Listening to a long playlist on spotify?
-Want to play a new song without losing your position on the playlist?
 
-Look no further, this script will roll over your songs so you can continue later on where you left off.
+Want to play a new song without losing your position?
+
+Look no further, this script will roll your songs so you can continue your position later on where you left off.
 
 # Example
 
